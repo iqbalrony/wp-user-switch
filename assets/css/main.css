@@ -1,0 +1,39 @@
+.user-switch-table table {
+	width: 100%;
+	text-align: justify;
+	background: #fff;
+	margin-top: 10px;
+}
+.user-switch-table table th,
+.user-switch-table table td {
+	padding: 12px;
+	border: 1px solid #ddd;
+}
+.user-switch-settings-area {
+	background-color: #fff;
+	padding: 20px;
+	margin-top: 40px;
+}
+.user-switch-settings-area table.form-table {
+	border-collapse: collapse;
+	margin-top: .5em;
+	width: 100%;
+	clear: both;
+}
+.user-switch-settings-area button.button-primary {
+	margin: 20px 0;
+}
+
+.user_switch_role_area {
+	display: flex;
+}
+.user_switch_role_area span.user_switch_role_title {
+	margin-right: 20px;
+}
+.user_switch_role_input input {
+	margin-left: 10px;
+	margin-right: 6px;
+}
+.user_switch_role_input input:first-child {
+	margin-left: 0;
+}
