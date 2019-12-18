@@ -1,53 +1,64 @@
 <?php
+
 namespace IqbalRony\WP_User_Switch;
-if (!defined('ABSPATH')) {
+if ( ! defined( 'ABSPATH' ) ) {
 	die;
 }
 $current_user_roles = wpus_get_current_user_roles();
-if ($current_user_roles[0] == 'administrator' && $_COOKIE['wpus_current_role'] == 'administrator') :
+//if ($current_user_roles[0] == 'administrator' && $_COOKIE['wpus_current_role'] == 'administrator') :
+var_dump( $_POST['wpus_allow_users'], $_POST['wpus_allow_users_submit'] );
 
-	if (isset($_POST['wpus_role']) && !empty($_POST['wpus_role'])) {
-		update_option('wpus_role', $_POST['wpus_role']);
+if ( $_POST['wpus_allow_users_submit'] ) {
+	if ( isset( $_POST['wpus_allow_users'] ) && ! empty( $_POST['wpus_allow_users'] ) ) {
+		update_option( 'wpus_allow_users', $_POST['wpus_allow_users'] );
+	} elseif ( empty( $_POST['wpus_allow_users'] ) ) {
+		update_option( 'wpus_allow_users', array() );
 	}
-	$role = get_option('wpus_role');
-//var_dump($role);
-	if (!is_array($role) || count($role) == 0) {
-		$role = array('administrator');
-	}
+}
 
-//var_dump(get_option( 'user_switch_role' ));
-	?>
-	<div class="user-switch-settings-area">
-		<h2><?php esc_html_e('User Switch Settings', 'user-switch'); ?></h2>
-		<div class="user-switch-settings">
+$role = get_option( 'wpus_allow_users' ) ? get_option( 'wpus_allow_users' ) : array();
+$i = 0;
+//var_dump( $role );
+?>
+	<div class="wpus-settings-area">
+		<h2><?php esc_html_e( 'User Switch Settings', 'user-switch' ); ?></h2>
+		<div class="wpus-settings">
 			<form method="post" class="user_switch" action="">
-
-				<table class="form-table">
-					<tbody>
-					<tr>
-						<th class="user_switch_role_title">
-							<label><?php esc_html_e('Allowed User Roles', 'user-switch'); ?></label>
-						</th>
-						<td class="user_switch_role_input">
-							<input type="checkbox" name="wpus_role[0]"
-							       value="administrator" <?php echo in_array("administrator", $role) == true ? __('checked', 'user-switch') : ''; ?>><?php esc_html_e('Administrator', 'user-switch'); ?>
-							<input type="checkbox" name="wpus_role[1]"
-							       value="editor" <?php echo in_array("editor", $role) == true ? __('checked', 'user-switch') : ''; ?>><?php esc_html_e('Editor', 'user-switch'); ?>
-							<input type="checkbox" name="wpus_role[2]"
-							       value="author" <?php echo in_array("author", $role) == true ? __('checked', 'user-switch') : ''; ?>><?php esc_html_e('Author', 'user-switch'); ?>
-							<input type="checkbox" name="wpus_role[3]"
-							       value="contributor" <?php echo in_array("contributor", $role) == true ? __('checked', 'user-switch') : ''; ?>><?php esc_html_e('Contributor', 'user-switch'); ?>
-							<input type="checkbox" name="wpus_role[4]"
-							       value="subscriber" <?php echo in_array("subscriber", $role) == true ? __('checked', 'user-switch') : ''; ?>><?php esc_html_e('Subscriber', 'user-switch'); ?>
-							<p class="description"><?php esc_html_e('Only allowed user can switch from one user to another user.', 'user-switch'); ?></p>
-						</td>
-					</tr>
-					</tbody>
-				</table>
-				<button class="wp-core-ui button-primary"
-				        type="submit"><?php esc_html_e('Save Changes', 'user-switch'); ?></button>
+				<div class="wpus-allow-user-table">
+					<div class="wpus-allow-user-title">
+						<h4><?php esc_html_e( 'Allowed User To Switch', 'user-switch' ); ?></h4>
+					</div>
+					<div class="wpus-allow-user-wrap">
+						<ul>
+							<li class="title">
+								<span class="username"><?php esc_html_e( 'Username', 'wp-user-switch' ); ?></span>
+								<span class="name"><?php esc_html_e( 'Name', 'wp-user-switch' ); ?></span>
+							</li>
+					  <?php foreach ( get_users() as $user ):
+						   /*echo '<pre>';
+							var_dump( $user);
+							echo '</pre>';*/
+						  if ( array_key_exists( 'manage_options', $user->allcaps ) == true ) {
+							  continue;
+						  }
+						  ?>
+								 <li>
+									 <label>
+									 <span class="username">
+										 <input type="checkbox" name="wpus_allow_users[<?php echo $i; ?>]"
+										        value="<?php echo $user->data->user_login; ?>" <?php echo in_array( $user->data->user_login, $role ) == true ? __( 'checked', 'user-switch' ) : ''; ?>><?php echo $user->data->user_login; ?>
+									 </span>
+									 </label>
+									 <span class="display-name"><?php echo $user->data->display_name; ?></span>
+								 </li>
+						  <?php $i++; endforeach; ?>
+						</ul>
+					</div>
+				</div>
+				<button class="wp-core-ui button-primary" name="wpus_allow_users_submit" value="submit"
+				        type="submit"><?php esc_html_e( 'Save Changes', 'wp-user-switch' ); ?></button>
 			</form>
 		</div>
 	</div>
 <?php
-endif;
+//endif;

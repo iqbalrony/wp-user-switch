@@ -4,9 +4,9 @@ if (!defined('ABSPATH')) {
 	die;
 }
 ?>
-	<div class="wrap">
+	<div class="wpus_wraper">
 		<h2>User Switch</h2>
-		<div class="user-switch-table">
+		<div class="wpus-table">
 			<table class="table table-striped">
 				<thead class="thead-light">
 				<tr>

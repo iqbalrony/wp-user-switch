@@ -1,39 +1,72 @@
-.user-switch-table table {
+.wpus-table table {
 	width: 100%;
 	text-align: justify;
 	background: #fff;
 	margin-top: 10px;
 }
-.user-switch-table table th,
-.user-switch-table table td {
+.wpus-table table th,
+.wpus-table table td {
 	padding: 12px;
 	border: 1px solid #ddd;
 }
-.user-switch-settings-area {
+
+
+/*Settings Css*/
+.wpus-settings-area {
 	background-color: #fff;
 	padding: 20px;
 	margin-top: 40px;
 }
-.user-switch-settings-area table.form-table {
-	border-collapse: collapse;
-	margin-top: .5em;
-	width: 100%;
-	clear: both;
+.wpus-allow-user-table {
+	display: block;
+	overflow: hidden;
 }
-.user-switch-settings-area button.button-primary {
+.wpus-settings-area button.button-primary {
 	margin: 20px 0;
 }
 
-.user_switch_role_area {
-	display: flex;
+.wpus-allow-user-title {
+	width: 200px;
+	float: left;
 }
-.user_switch_role_area span.user_switch_role_title {
-	margin-right: 20px;
+.wpus-allow-user-wrap {
+	width: 500px;
+	float: left;
 }
-.user_switch_role_input input {
-	margin-left: 10px;
-	margin-right: 6px;
+.wpus-allow-user-wrap ul {
+	margin: 0;
+	padding: 0;
+	list-style: none;
+	border: 1px solid #ddd;
+	display: block;
+	overflow: hidden;
+	border-radius: 5px;
 }
-.user_switch_role_input input:first-child {
-	margin-left: 0;
+
+.wpus-allow-user-wrap ul li {
+	display: block;
+	overflow: hidden;
+	margin: 0;
+	border-bottom: 1px solid #ddd;
+}
+
+.wpus-allow-user-wrap ul li span {
+	width: 50%;
+	float: left;
+	padding: 10px 10px;
+	box-sizing: border-box;
+	display: block;
+	overflow: hidden;
+}
+
+.wpus-allow-user-wrap ul li:last-child {
+	border-bottom: 0;
+}
+
+.wpus-allow-user-wrap ul li.title span {
+	font-weight: 600;
+}
+
+.wpus-allow-user-wrap ul li span:first-child {
+	border-right: 1px solid #ddd;
 }
