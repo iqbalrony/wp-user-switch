@@ -13,6 +13,7 @@ class WP_User_Switch {
 
 	public function __construct () {
 		add_action( 'init', array( $this, 'set_cookie_if_not_set' ) );
+		add_action( 'admin_page_access_denied', array( $this, 'access_denied' ) );
 		add_action( 'wp_login', array( $this, 'set_cookie_by_login' ), 99 );
 		add_action( 'wp_logout', array( $this, 'remove_cookie' ) );
 		$this->includes();
@@ -158,10 +159,20 @@ class WP_User_Switch {
 				if ( $_REQUEST['redirect'] ) {
 					$redirect_loc = ( isset( $_SERVER['HTTPS'] ) && $_SERVER['HTTPS'] === 'on' ? "https" : "http" ) . '://' . $_SERVER['HTTP_HOST'] . $_REQUEST['redirect'];
 				}
-				//var_dump(wp_redirect($redirect_loc));
+
 				wp_redirect( $redirect_loc );
 				exit();
 			}
+		}
+	}
+
+	/**
+	 * User Switch function
+	 */
+	public function access_denied () {
+		if ( is_user_logged_in() ) {
+			wp_redirect( admin_url() );
+			exit();
 		}
 	}
 
