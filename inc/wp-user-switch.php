@@ -19,6 +19,7 @@ class WP_User_Switch {
 		$this->includes();
 		add_action( 'admin_menu', array( $this, 'menu_page' ) );
 		add_action( 'admin_bar_menu', array( $this, 'admin_bar_item' ), 500 );
+		add_action( 'wp_footer', array( $this, 'footer_markup' ), 10 );
 		$this->user_switch();
 		register_deactivation_hook( __FILE__, array( $this, 'remove_cookie' ) );
 	}
@@ -173,6 +174,18 @@ class WP_User_Switch {
 		if ( is_user_logged_in() ) {
 			wp_redirect( admin_url() );
 			exit();
+		}
+	}
+
+	/**
+	 *
+	 */
+	public function footer_markup () {
+		if ( wpus_allow_user_to_admin_bar_menu() === false ) {
+			return;
+		}
+		if ( is_user_logged_in() ) {
+			frontend_userswitch_list();
 		}
 	}
 

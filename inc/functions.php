@@ -60,7 +60,44 @@ function wpus_is_switcher_admin() {
 	}
 }
 
-/*$user = wp_get_current_user();
-echo '<pre>';
-var_dump($user->user_login);
-echo '</pre>';*/
+
+function frontend_userswitch_list() {
+	?>
+	<div class="wpus_front_list">
+		<span class="icon">
+			<img src="<?php echo wpus_plugin_url('/assets/images/front-icon.png')?>" alt="">
+			<span class="title">User Switch</span>
+		</span>
+		<ul>
+			<?php
+
+			foreach ( get_users() as $user ) {
+				$switch_url = admin_url( 'admin.php?page=' ) .
+					WP_USERSWITCH_SLUG .
+					'&wpus_username=' .
+					$user->data->user_login .
+					'&wpus_userid=' .
+					$user->data->ID .
+					'&redirect=' .
+					$_SERVER['REQUEST_URI'];
+				/*$admin_bar->add_menu( array(
+					'id' => 'wpus-user-' . $user->data->user_login,
+					'parent' => 'wpus',
+					'title' => $user->data->display_name,
+					'href' => $switch_url,
+					'meta' => [
+						'class' => $user->data->user_login . $user->data->ID,
+					]
+				) );*/
+				?>
+				<li>
+					<a href="<?php echo esc_url($switch_url);?>"><?php esc_html_e($user->data->display_name);?></a>
+				</li>
+				<?php
+
+			}
+			?>
+		</ul>
+	</div>
+	<?php
+}

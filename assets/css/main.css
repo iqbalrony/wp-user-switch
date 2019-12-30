@@ -70,3 +70,68 @@
 .wpus-allow-user-wrap ul li span:first-child {
 	border-right: 1px solid #ddd;
 }
+
+/*Front End*/
+.wpus_front_list {
+	position: fixed;
+	left: 0;
+	top: 64px;
+	z-index: 999999999;
+}
+.wpus_front_list span.icon {
+	display: inline-flex;
+	line-height: 1;
+	background: #333;
+	color: #fff;
+	align-items: center;
+	padding: 5px 7px 5px 3px;
+	font-size: 15px;
+	border-radius: 0 25px 25px 0;
+	cursor: pointer;
+}
+.wpus_front_list span.icon img {
+	width: 25px;
+	height: 25px;
+}
+
+.wpus_front_list span.title {
+	margin: 0 0 0 5px;
+	position: relative;
+	text-indent: -9999px;
+	transition: all 0.4s ease-out;
+}
+
+.wpus_front_list span.icon:hover span.title {
+	text-indent: 0;
+}
+.wpus_front_list ul {
+	margin: 0;
+	list-style: none;
+	padding: 10px;
+	background-color: #333;
+	width: 300px;
+	max-height: 200px;
+	overflow: hidden auto;
+	position: absolute;
+	left: -350px;
+	transition: all 0.4s;
+}
+.wpus_front_list ul.visible {
+	left: 0;
+}
+
+.wpus_front_list ul li {
+	margin-bottom: 5px;
+	line-height: 1;
+}
+.wpus_front_list ul li a {
+	font-size: 18px;
+	text-transform: capitalize;
+	color: #fff;
+	margin: 0;
+	padding: 0;
+	line-height: 18px;
+}
+.wpus_front_list ul li a:hover {
+	opacity: 0.8;
+}

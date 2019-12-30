@@ -1,31 +1,30 @@
 (function ($) {
 	"use strict";
 
-	// $(document).ready(function () {
-	// 	// Show the 2nd button text field value on console log
-	// 	var $button = $('form.user_switch .user_switch_btn');
-	// 	console.log($button);
-	// 	// if($button.length !== 0){
-	// 	// 	console.log('have button');
-	// 	// 	$button.on('click', function (e) {
-	// 	// 		e.preventDefault();
-	// 	// 		var $self = $(this),
-	// 	// 			$form = $self.closest('form'),
-	// 	// 			asfas,
-	// 	// 		$data_switch = $self.data('switch');
-	// 	// 		var $temp = $('<input name="user_switch_username">');
-	// 	// 		$self.append($temp);
-	// 	// 		$temp.val($data_switch);
-	// 	// 		$form.submit();
-	// 	// 		$temp.remove();
-	// 	// 		// if ($after_copy_text.length) {
-	// 	// 		// 	$(this).text($after_copy_text);
-	// 	// 		// }
-	// 	// 		// console.log($(this).val());
-	// 	// 	});
-	// 	// }
-	//
-	// });
+	$(document).ready(function () {
+
+		var $icon = $('.wpus_front_list span.icon');
+		var $img = $icon.find('img');
+		var $title = $icon.find('span.title');
+		var $list = $('.wpus_front_list ul');
+
+		$(document).on('click', function (e) {
+			var t = $(e.target);
+			console.log(t[0]);
+			if( t[0] === $icon[0] || t[0] === $img[0] || t[0] === $title[0] ){
+				if ($list.hasClass('visible')) {
+					$list.removeClass('visible');
+				} else {
+					$list.addClass('visible');
+				}
+				console.log('inside');
+			}else {
+				console.log('not inside');
+				$list.removeClass('visible');
+			}
+		});
+
+	});
 	/*End document ready*/
 
 })(jQuery);
