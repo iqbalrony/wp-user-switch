@@ -59,23 +59,11 @@ class WP_User_Switch {
 	 * Create user switch settings page
 	 */
 	public function menu_page () {
-		/*$role = get_option('wpus_allow_users');
-		if (!is_array($role) || count($role) == 0) {
-			$role = array('administrator');
-		}
-		if(isset($_COOKIE['wpus_who_switch'])){
-			$allowed_role = ( array ) $_COOKIE['wpus_who_switch'];
-		}else{
-			$allowed_role = wpus_get_current_user_roles();
-		}
-		if (!in_array($allowed_role[0], $role)) {
-			return;
-		}*/
+
 		add_menu_page(
 			__( 'User Switch Title', 'wp-user-switch' ),
 			'User Switch',
 			'manage_options',
-//			'read',
 			WP_USERSWITCH_SLUG,
 			array( $this, 'menu_page_markup' ),
 			'dashicons-buddicons-buddypress-logo'
@@ -97,7 +85,6 @@ class WP_User_Switch {
 	public function admin_bar_item ( \WP_Admin_Bar $admin_bar ) {
 
 		$allow = false;
-		//var_dump( $allowed_user_cookie,$allowed_user, $allow,$allcaps );
 
 		if ( wpus_allow_user_to_admin_bar_menu() === false ) {
 			return;
@@ -126,7 +113,9 @@ class WP_User_Switch {
 				'&wpus_userid=' .
 				$user->data->ID .
 				'&redirect=' .
-				$_SERVER['REQUEST_URI'];
+				$_SERVER['REQUEST_URI'] .
+				'&wpnonce=' .
+				wp_create_nonce();
 			$admin_bar->add_menu( array(
 				'id' => 'wpus-user-' . $user->data->user_login,
 				'parent' => 'wpus',
@@ -152,7 +141,10 @@ class WP_User_Switch {
 				$user = get_user_by( 'login', $username );
 				$user_id = $user->ID;
 				if ( $userid != $user_id ) return;
-				//var_dump(isset($_REQUEST['user_switch_username']), !empty($_REQUEST['user_switch_username']));
+
+				if ( empty( $_REQUEST['wpnonce'] ) ) return;
+				$wpnonce = wp_create_nonce();
+				if($_REQUEST['wpnonce'] !== $wpnonce) return;
 
 				wp_set_current_user( $user_id, $username );
 				wp_set_auth_cookie( $user_id );
@@ -181,9 +173,8 @@ class WP_User_Switch {
 	 *
 	 */
 	public function footer_markup () {
-		if ( wpus_allow_user_to_admin_bar_menu() === false ) {
-			return;
-		}
+		if ( wpus_allow_user_to_admin_bar_menu() === false ) return;
+		if ( ! class_exists( 'WooCommerce' ) ) return;
 		if ( is_user_logged_in() ) {
 			frontend_userswitch_list();
 		}

@@ -5,8 +5,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 	die;
 }
 $current_user_roles = wpus_get_current_user_roles();
-//if ($current_user_roles[0] == 'administrator' && $_COOKIE['wpus_current_role'] == 'administrator') :
-var_dump( $_POST['wpus_allow_users'], $_POST['wpus_allow_users_submit'] );
+
+//var_dump( $_POST['wpus_allow_users'], $_POST['wpus_allow_users_submit'] );
 
 if ( $_POST['wpus_allow_users_submit'] ) {
 	if ( isset( $_POST['wpus_allow_users'] ) && ! empty( $_POST['wpus_allow_users'] ) ) {
@@ -35,9 +35,6 @@ $i = 0;
 								<span class="name"><?php esc_html_e( 'Name', 'wp-user-switch' ); ?></span>
 							</li>
 					  <?php foreach ( get_users() as $user ):
-						   /*echo '<pre>';
-							var_dump( $user);
-							echo '</pre>';*/
 						  if ( array_key_exists( 'manage_options', $user->allcaps ) == true ) {
 							  continue;
 						  }
@@ -61,4 +58,3 @@ $i = 0;
 		</div>
 	</div>
 <?php
-//endif;

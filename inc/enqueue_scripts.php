@@ -2,21 +2,18 @@
 /**
  * Enqueue Scripts
  */
-add_action('admin_enqueue_scripts', 'admin_userswitch_scripts');
-function admin_userswitch_scripts() {
+add_action('admin_enqueue_scripts', 'wpus_admin_scripts');
+add_action('wp_enqueue_scripts', 'wpus_scripts');
+function wpus_admin_scripts() {
+	wp_enqueue_style('wpus-admin-main-css', wpus_plugin_url('/assets/css/admin-main.css'), '', '');
 
-	wp_enqueue_style('wpus-main-css', wpus_plugin_url('/assets/css/main.css'), '', '');
-
-	wp_enqueue_script('wpus-main-js', wpus_plugin_url('/assets/js/main.js'), array('jquery'), '', true);
-
+	wp_localize_script('jquery','wpus_localize',array(
+		'wpus_nonce' => wp_create_nonce(),
+	));
 }
-add_action('wp_enqueue_scripts', 'userswitch_scripts');
-function userswitch_scripts() {
-
+function wpus_scripts() {
 	wp_enqueue_style('wpus-main-css', wpus_plugin_url('/assets/css/main.css'), '', '');
-
 	wp_enqueue_script('wpus-main-js', wpus_plugin_url('/assets/js/main.js'), array('jquery'), '', true);
-
 }
 
 /*if(!isset($_COOKIE['userswitch_current_role'])) {

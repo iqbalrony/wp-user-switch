@@ -25,7 +25,9 @@ if (!defined('ABSPATH')) {
 						'&wpus_username=' .
 						$user->data->user_login .
 						'&wpus_userid=' .
-						$user->data->ID;
+						$user->data->ID .
+						'&wpnonce=' .
+						wp_create_nonce();
 					?>
 					<tr>
 						<td><?php echo $user->data->user_login; ?></td>

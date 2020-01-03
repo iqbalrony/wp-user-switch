@@ -72,6 +72,10 @@ function frontend_userswitch_list() {
 			<?php
 
 			foreach ( get_users() as $user ) {
+				if ( wpus_is_switcher_admin() !== true && array_key_exists( 'manage_options', $user->allcaps ) == true) {
+					continue;
+				}
+
 				$switch_url = admin_url( 'admin.php?page=' ) .
 					WP_USERSWITCH_SLUG .
 					'&wpus_username=' .

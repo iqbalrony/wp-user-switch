@@ -1,0 +1,72 @@
+.wpus-table table {
+	width: 100%;
+	text-align: justify;
+	background: #fff;
+	margin-top: 10px;
+}
+.wpus-table table th,
+.wpus-table table td {
+	padding: 12px;
+	border: 1px solid #ddd;
+}
+
+
+/*Settings Css*/
+.wpus-settings-area {
+	background-color: #fff;
+	padding: 20px;
+	margin-top: 40px;
+}
+.wpus-allow-user-table {
+	display: block;
+	overflow: hidden;
+}
+.wpus-settings-area button.button-primary {
+	margin: 20px 0;
+}
+
+.wpus-allow-user-title {
+	width: 200px;
+	float: left;
+}
+.wpus-allow-user-wrap {
+	width: 500px;
+	float: left;
+}
+.wpus-allow-user-wrap ul {
+	margin: 0;
+	padding: 0;
+	list-style: none;
+	border: 1px solid #ddd;
+	display: block;
+	overflow: hidden;
+	border-radius: 5px;
+}
+
+.wpus-allow-user-wrap ul li {
+	display: block;
+	overflow: hidden;
+	margin: 0;
+	border-bottom: 1px solid #ddd;
+}
+
+.wpus-allow-user-wrap ul li span {
+	width: 50%;
+	float: left;
+	padding: 10px 10px;
+	box-sizing: border-box;
+	display: block;
+	overflow: hidden;
+}
+
+.wpus-allow-user-wrap ul li:last-child {
+	border-bottom: 0;
+}
+
+.wpus-allow-user-wrap ul li.title span {
+	font-weight: 600;
+}
+
+.wpus-allow-user-wrap ul li span:first-child {
+	border-right: 1px solid #ddd;
+}
