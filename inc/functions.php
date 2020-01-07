@@ -1,5 +1,5 @@
 <?php
-if (!defined('ABSPATH')) {
+if ( ! defined( 'ABSPATH' ) ) {
 	die;
 }
 
@@ -7,8 +7,8 @@ if (!defined('ABSPATH')) {
  * return current user role if login
  * @return array
  */
-function wpus_get_current_user_roles() {
-	if (is_user_logged_in()) {
+function wpus_get_current_user_roles () {
+	if ( is_user_logged_in() ) {
 		$user = wp_get_current_user();
 		$roles = ( array ) $user->roles;
 		return $roles; // This returns an array
@@ -22,19 +22,19 @@ function wpus_get_current_user_roles() {
 /**
  * @return bool
  */
-function wpus_allow_user_to_admin_bar_menu() {
+function wpus_allow_user_to_admin_bar_menu () {
 	$allow = false;
 	$allowed_user = get_option( 'wpus_allow_users' ) ? get_option( 'wpus_allow_users' ) : array();
 	$allowed_user_cookie = '';
 	if ( current_user_can( 'manage_options' ) ) {
 		$allow = true;
-	} else{
+	} else {
 		if ( isset( $_COOKIE['wpus_who_switch'] ) ) {
 			$allowed_user_cookie = $_COOKIE['wpus_who_switch'];
 		}
 		$user = get_user_by( 'login', $allowed_user_cookie );
-		$allcaps = is_object($user)? (array) $user->allcaps : array();
-		if ( array_key_exists( 'manage_options' , $allcaps ) == true ) {
+		$allcaps = is_object( $user ) ? (array) $user->allcaps : array();
+		if ( array_key_exists( 'manage_options', $allcaps ) == true ) {
 			$allow = true;
 		} elseif ( in_array( $allowed_user_cookie, $allowed_user ) == true ) {
 			$allow = true;
@@ -46,61 +46,51 @@ function wpus_allow_user_to_admin_bar_menu() {
 /**
  * @return bool
  */
-function wpus_is_switcher_admin() {
+function wpus_is_switcher_admin () {
 	$allowed_user_cookie = '';
 	if ( isset( $_COOKIE['wpus_who_switch'] ) ) {
 		$allowed_user_cookie = $_COOKIE['wpus_who_switch'];
 	}
 	$user = get_user_by( 'login', $allowed_user_cookie );
-	$allcaps = is_object($user)? (array) $user->allcaps : array();
-	if ( array_key_exists( 'manage_options' , $allcaps ) == true ) {
+	$allcaps = is_object( $user ) ? (array) $user->allcaps : array();
+	if ( array_key_exists( 'manage_options', $allcaps ) == true ) {
 		return true;
-	}else{
+	} else {
 		return false;
 	}
 }
 
 
-function frontend_userswitch_list() {
+function frontend_userswitch_list () {
 	?>
 	<div class="wpus_front_list">
-		<span class="icon">
-			<img src="<?php echo wpus_plugin_url('/assets/images/front-icon.png')?>" alt="">
-			<span class="title">User Switch</span>
+		<span class="wpus_front_icon">
+			<img src="<?php echo wpus_plugin_url( '/assets/images/front-icon.png' ) ?>" alt="">
+			<span class="wpus_front_title">User Switch</span>
 		</span>
 		<ul>
-			<?php
-
-			foreach ( get_users() as $user ) {
-				if ( wpus_is_switcher_admin() !== true && array_key_exists( 'manage_options', $user->allcaps ) == true) {
-					continue;
-				}
-
-				$switch_url = admin_url( 'admin.php?page=' ) .
-					WP_USERSWITCH_SLUG .
-					'&wpus_username=' .
-					$user->data->user_login .
-					'&wpus_userid=' .
-					$user->data->ID .
-					'&redirect=' .
-					$_SERVER['REQUEST_URI'];
-				/*$admin_bar->add_menu( array(
-					'id' => 'wpus-user-' . $user->data->user_login,
-					'parent' => 'wpus',
-					'title' => $user->data->display_name,
-					'href' => $switch_url,
-					'meta' => [
-						'class' => $user->data->user_login . $user->data->ID,
-					]
-				) );*/
-				?>
-				<li>
-					<a href="<?php echo esc_url($switch_url);?>"><?php esc_html_e($user->data->display_name);?></a>
-				</li>
-				<?php
-
-			}
-			?>
+		  <?php
+		  foreach ( get_users() as $user ) {
+			  if ( wpus_is_switcher_admin() !== true && array_key_exists( 'manage_options', $user->allcaps ) == true ) {
+				  continue;
+			  }
+			  $switch_url = admin_url( 'admin.php?page=' ) .
+				  WP_USERSWITCH_SLUG .
+				  '&wpus_username=' .
+				  $user->data->user_login .
+				  '&wpus_userid=' .
+				  $user->data->ID .
+				  '&redirect=' .
+				  $_SERVER['REQUEST_URI'] .
+				  '&wpnonce=' .
+				  wp_create_nonce();
+			  ?>
+				 <li>
+					 <a href="<?php echo esc_url( $switch_url ); ?>"><?php esc_html_e( $user->data->display_name ); ?></a>
+				 </li>
+			  <?php
+		  }
+		  ?>
 		</ul>
 	</div>
 	<?php

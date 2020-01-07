@@ -12,8 +12,6 @@
 */
 
 // Exit if accessed directly
-use IqbalRony\WP_User_Switch\WP_User_Switch;
-
 if (!defined('ABSPATH')) {
 	die;
 }

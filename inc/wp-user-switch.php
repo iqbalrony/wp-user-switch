@@ -9,8 +9,15 @@ use WP_Admin_Bar;
 
 class WP_User_Switch {
 
+	/**
+	 * @var
+	 */
 	public static $_instance;
 
+
+	/**
+	 * WP_User_Switch constructor.
+	 */
 	public function __construct () {
 		add_action( 'init', array( $this, 'set_cookie_if_not_set' ) );
 		add_action( 'admin_page_access_denied', array( $this, 'access_denied' ) );
@@ -26,7 +33,7 @@ class WP_User_Switch {
 
 
 	/**
-	 * set user role cookie by user login
+	 * Set user role cookie by user login
 	 * @param $user_login
 	 */
 	public function set_cookie_by_login ( $user_login ) {
@@ -37,7 +44,7 @@ class WP_User_Switch {
 
 
 	/**
-	 * set user role cookie if it is not set by login
+	 * Set user role cookie if it is not set by login
 	 */
 	public function set_cookie_if_not_set () {
 		if ( is_user_logged_in() && ! isset( $_COOKIE['wpus_who_switch'] ) ) {
@@ -47,6 +54,7 @@ class WP_User_Switch {
 		}
 	}
 
+
 	/**
 	 * remove user role cookie when user logout or deactivate
 	 */
@@ -55,11 +63,11 @@ class WP_User_Switch {
 		setcookie( 'wpus_who_switch', '', time() - ( 15 * 60 ), COOKIEPATH, COOKIE_DOMAIN );
 	}
 
+
 	/**
 	 * Create user switch settings page
 	 */
 	public function menu_page () {
-
 		add_menu_page(
 			__( 'User Switch Title', 'wp-user-switch' ),
 			'User Switch',
@@ -70,6 +78,7 @@ class WP_User_Switch {
 		);
 	}
 
+
 	/**
 	 * Include setting page markup
 	 */
@@ -78,18 +87,16 @@ class WP_User_Switch {
 		require_once wpus_get_plugin_path( 'templates/settings.php' );
 	}
 
+
 	/**
-	 * set user switch admin bar menu
+	 * Set user switch admin bar menu
 	 * @param WP_Admin_Bar $admin_bar
 	 */
 	public function admin_bar_item ( \WP_Admin_Bar $admin_bar ) {
-
 		$allow = false;
-
 		if ( wpus_allow_user_to_admin_bar_menu() === false ) {
 			return;
 		}
-
 		$admin_bar->add_menu( array(
 			'id' => 'wpus',
 			'parent' => null,
@@ -129,6 +136,7 @@ class WP_User_Switch {
 		}
 	}
 
+
 	/**
 	 * User Switch function
 	 */
@@ -159,8 +167,9 @@ class WP_User_Switch {
 		}
 	}
 
+
 	/**
-	 * User Switch function
+	 * if user has no access permit of existing page redirect to admin page
 	 */
 	public function access_denied () {
 		if ( is_user_logged_in() ) {
@@ -169,8 +178,9 @@ class WP_User_Switch {
 		}
 	}
 
+
 	/**
-	 *
+	 * Footer Markup
 	 */
 	public function footer_markup () {
 		if ( wpus_allow_user_to_admin_bar_menu() === false ) return;
@@ -191,7 +201,7 @@ class WP_User_Switch {
 
 
 	/**
-	 * Instantiate the plugin
+	 * @return WP_User_Switch Class instance
 	 */
 	public static function instance () {
 		if ( is_null( self::$_instance ) ) {

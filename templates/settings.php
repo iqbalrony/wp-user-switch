@@ -4,10 +4,6 @@ namespace IqbalRony\WP_User_Switch;
 if ( ! defined( 'ABSPATH' ) ) {
 	die;
 }
-$current_user_roles = wpus_get_current_user_roles();
-
-//var_dump( $_POST['wpus_allow_users'], $_POST['wpus_allow_users_submit'] );
-
 if ( $_POST['wpus_allow_users_submit'] ) {
 	if ( isset( $_POST['wpus_allow_users'] ) && ! empty( $_POST['wpus_allow_users'] ) ) {
 		update_option( 'wpus_allow_users', $_POST['wpus_allow_users'] );
@@ -15,10 +11,8 @@ if ( $_POST['wpus_allow_users_submit'] ) {
 		update_option( 'wpus_allow_users', array() );
 	}
 }
-
 $role = get_option( 'wpus_allow_users' ) ? get_option( 'wpus_allow_users' ) : array();
 $i = 0;
-//var_dump( $role );
 ?>
 	<div class="wpus-settings-area">
 		<h2><?php esc_html_e( 'User Switch Settings', 'user-switch' ); ?></h2>
