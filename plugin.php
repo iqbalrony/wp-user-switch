@@ -1,11 +1,10 @@
 <?php
 /**
- *Plugin Name: WP User Switch
- * Plugin URI: http://www.iqbalrony.com
+ * Plugin Name: WP User Switch
  * Description: Switch instantly between one user account to another account in WordPress. This plugin make this easy for you.
  * Author: IqbalRony
  * Author URI: http://www.iqbalrony.com
- * Version: 1.0
+ * Version: 1.0.0
  * License: GPLv2
  * License URI: https://www.gnu.org/licenses/gpl-2.0.html
  * Text Domain: wp-user-switch
