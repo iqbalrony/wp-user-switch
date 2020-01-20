@@ -39,7 +39,7 @@ class WP_User_Switch {
 	public function set_cookie_by_login ( $user_login ) {
 		$user = get_user_by( 'login', $user_login );
 		$user_login = $user->user_login;
-		setcookie( 'wpus_who_switch', $user->user_login, time() + ( 1 * YEAR_IN_SECONDS ), COOKIEPATH, COOKIE_DOMAIN );
+		setcookie( 'wpus_who_switch', sanitize_user( $user_login ), time() + ( 1 * YEAR_IN_SECONDS ), COOKIEPATH, COOKIE_DOMAIN );
 	}
 
 
@@ -50,7 +50,7 @@ class WP_User_Switch {
 		if ( is_user_logged_in() && ! isset( $_COOKIE['wpus_who_switch'] ) ) {
 			$user = wp_get_current_user();
 			$user_login = $user->user_login;
-			setcookie( 'wpus_who_switch', $user_login, time() + ( 1 * YEAR_IN_SECONDS ), COOKIEPATH, COOKIE_DOMAIN );
+			setcookie( 'wpus_who_switch', sanitize_user( $user_login ), time() + ( 1 * YEAR_IN_SECONDS ), COOKIEPATH, COOKIE_DOMAIN );
 		}
 	}
 
@@ -70,9 +70,9 @@ class WP_User_Switch {
 	public function menu_page () {
 		add_menu_page(
 			__( 'User Switch Title', 'wp-user-switch' ),
-			'User Switch',
+			__( 'User Switch', 'wp-user-switch' ),
 			'manage_options',
-			WP_USERSWITCH_SLUG,
+			WP_USERSWITCH_MENU_PAGE_SLUG,
 			array( $this, 'menu_page_markup' ),
 			'dashicons-buddicons-buddypress-logo'
 		);
@@ -101,35 +101,35 @@ class WP_User_Switch {
 			'id' => 'wpus',
 			'parent' => null,
 			'group' => null,
-			'title' => 'User Switch',
-			'href' => admin_url( 'admin.php?page=' ) . WP_USERSWITCH_SLUG,
+			'title' => __( 'User Switch', 'wp-user-switch' ),
+			'href' => admin_url( 'admin.php?page=' ) . WP_USERSWITCH_MENU_PAGE_SLUG,
 			'meta' => [
 				'title' => __( 'User Switch', 'wp-user-switch' ),
 			]
 		) );
 
 		foreach ( get_users() as $user ) {
-			if ( wpus_is_switcher_admin() !== true && array_key_exists( 'manage_options', $user->allcaps ) == true) {
+			if ( wpus_is_switcher_admin() !== true && array_key_exists( 'manage_options', $user->allcaps ) == true ) {
 				continue;
 			}
 
 			$switch_url = admin_url( 'admin.php?page=' ) .
-				WP_USERSWITCH_SLUG .
+				WP_USERSWITCH_MENU_PAGE_SLUG .
 				'&wpus_username=' .
-				$user->data->user_login .
+				sanitize_user( $user->data->user_login ) .
 				'&wpus_userid=' .
-				$user->data->ID .
+				esc_html( $user->data->ID ) .
 				'&redirect=' .
 				$_SERVER['REQUEST_URI'] .
-				'&wpnonce=' .
-				wp_create_nonce();
+				'&wpus_nonce=' .
+				wp_create_nonce( 'wp_user_switch_req' );
 			$admin_bar->add_menu( array(
-				'id' => 'wpus-user-' . $user->data->user_login,
+				'id' => 'wpus-user-' . esc_html( $user->data->user_login ),
 				'parent' => 'wpus',
-				'title' => $user->data->display_name,
-				'href' => $switch_url,
+				'title' => esc_html( $user->data->display_name ),
+				'href' => esc_url( $switch_url ),
 				'meta' => [
-					'class' => $user->data->user_login . $user->data->ID,
+					'class' => esc_attr( $user->data->user_login . $user->data->ID ),
 				]
 			) );
 
@@ -143,20 +143,20 @@ class WP_User_Switch {
 	public function user_switch () {
 		if ( is_user_logged_in() ) {
 			if ( isset( $_REQUEST['wpus_username'] ) && ! empty( $_REQUEST['wpus_username'] ) && isset( $_REQUEST['wpus_userid'] ) && ! empty( $_REQUEST['wpus_userid'] ) ) {
-				$username = $_REQUEST['wpus_username'];
-				$userid = $_REQUEST['wpus_userid'];
+				$username = sanitize_user( $_REQUEST['wpus_username'] );
+				$userid = esc_html( $_REQUEST['wpus_userid'] );
 				wp_clear_auth_cookie();
 				$user = get_user_by( 'login', $username );
-				$user_id = $user->ID;
+				$user_id = esc_html( $user->ID );
 				if ( $userid != $user_id ) return;
 
-				if ( empty( $_REQUEST['wpnonce'] ) ) return;
-				$wpnonce = wp_create_nonce();
-				if($_REQUEST['wpnonce'] !== $wpnonce) return;
+				if ( empty( $_REQUEST['wpus_nonce'] ) ) return;
+
+				if ( ! wp_verify_nonce( $_REQUEST['wpus_nonce'], 'wp_user_switch_req' ) ) return;
 
 				wp_set_current_user( $user_id, $username );
 				wp_set_auth_cookie( $user_id );
-				$redirect_loc = admin_url( 'admin.php?page=' ) . WP_USERSWITCH_SLUG;
+				$redirect_loc = admin_url( 'admin.php?page=' ) . WP_USERSWITCH_MENU_PAGE_SLUG;
 				if ( $_REQUEST['redirect'] ) {
 					$redirect_loc = ( isset( $_SERVER['HTTPS'] ) && $_SERVER['HTTPS'] === 'on' ? "https" : "http" ) . '://' . $_SERVER['HTTP_HOST'] . $_REQUEST['redirect'];
 				}

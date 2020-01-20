@@ -66,7 +66,7 @@ function frontend_userswitch_list () {
 	<div class="wpus_front_list">
 		<span class="wpus_front_icon">
 			<img src="<?php echo wpus_plugin_url( '/assets/images/front-icon.png' ) ?>" alt="">
-			<span class="wpus_front_title">User Switch</span>
+			<span class="wpus_front_title"><?php esc_html_e( 'User Switch', 'wp-user-switch' ) ?></span>
 		</span>
 		<ul>
 		  <?php
@@ -75,15 +75,15 @@ function frontend_userswitch_list () {
 				  continue;
 			  }
 			  $switch_url = admin_url( 'admin.php?page=' ) .
-				  WP_USERSWITCH_SLUG .
+				  WP_USERSWITCH_MENU_PAGE_SLUG .
 				  '&wpus_username=' .
-				  $user->data->user_login .
+				  sanitize_user( $user->data->user_login ) .
 				  '&wpus_userid=' .
-				  $user->data->ID .
+				  esc_html( $user->data->ID ) .
 				  '&redirect=' .
 				  $_SERVER['REQUEST_URI'] .
-				  '&wpnonce=' .
-				  wp_create_nonce();
+				  '&wpus_nonce=' .
+				  wp_create_nonce( 'wp_user_switch_req' );
 			  ?>
 				 <li>
 					 <a href="<?php echo esc_url( $switch_url ); ?>"><?php esc_html_e( $user->data->display_name ); ?></a>
