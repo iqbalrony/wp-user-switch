@@ -5,8 +5,11 @@ if ( ! defined( 'ABSPATH' ) ) {
 	die;
 }
 if ( $_POST['wpus_allow_users_submit'] && wp_verify_nonce( $_POST['wpus_allow_users_nonce'], 'wpus_allow_users_nonce' ) ) {
-	if ( isset( $_POST['wpus_allow_users'] ) && ! empty( $_POST['wpus_allow_users'] ) ) {
-		update_option( 'wpus_allow_users', $_POST['wpus_allow_users'] );
+	if ( isset( $_POST['wpus_allow_users'] ) && ! empty( $_POST['wpus_allow_users'] ) && is_array( $_POST['wpus_allow_users'] ) ) {
+		   foreach ( $_POST['wpus_allow_users'] as $key => $wpus_allow_users ) {
+		     $_POST['wpus_allow_users'][$key] = sanitize_text_field( $wpus_allow_users );
+		   }
+	   update_option( 'wpus_allow_users', $_POST['wpus_allow_users'] );
 	} elseif ( empty( $_POST['wpus_allow_users'] ) ) {
 		update_option( 'wpus_allow_users', array() );
 	}

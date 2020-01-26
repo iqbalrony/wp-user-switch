@@ -30,7 +30,7 @@ function wpus_allow_user_to_admin_bar_menu () {
 		$allow = true;
 	} else {
 		if ( isset( $_COOKIE['wpus_who_switch'] ) ) {
-			$allowed_user_cookie = $_COOKIE['wpus_who_switch'];
+			$allowed_user_cookie = sanitize_user($_COOKIE['wpus_who_switch']);
 		}
 		$user = get_user_by( 'login', $allowed_user_cookie );
 		$allcaps = is_object( $user ) ? (array) $user->allcaps : array();
@@ -49,7 +49,7 @@ function wpus_allow_user_to_admin_bar_menu () {
 function wpus_is_switcher_admin () {
 	$allowed_user_cookie = '';
 	if ( isset( $_COOKIE['wpus_who_switch'] ) ) {
-		$allowed_user_cookie = $_COOKIE['wpus_who_switch'];
+		$allowed_user_cookie = sanitize_user($_COOKIE['wpus_who_switch']);
 	}
 	$user = get_user_by( 'login', $allowed_user_cookie );
 	$allcaps = is_object( $user ) ? (array) $user->allcaps : array();
@@ -60,8 +60,10 @@ function wpus_is_switcher_admin () {
 	}
 }
 
-
-function frontend_userswitch_list () {
+/**
+ * Footer Markup
+ */
+function wpus_frontend_userswitch_list () {
 	?>
 	<div class="wpus_front_list">
 		<span class="wpus_front_icon">

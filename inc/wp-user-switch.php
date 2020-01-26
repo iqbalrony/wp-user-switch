@@ -186,7 +186,7 @@ class WP_User_Switch {
 		if ( wpus_allow_user_to_admin_bar_menu() === false ) return;
 		if ( ! class_exists( 'WooCommerce' ) ) return;
 		if ( is_user_logged_in() ) {
-			frontend_userswitch_list();
+			wpus_frontend_userswitch_list();
 		}
 	}
 
