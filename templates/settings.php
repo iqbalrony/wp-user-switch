@@ -8,7 +8,7 @@ if ( $_POST['wpus_allow_users_submit'] && wp_verify_nonce( $_POST['wpus_allow_us
 	if ( isset( $_POST['wpus_allow_users'] ) && ! empty( $_POST['wpus_allow_users'] ) && is_array( $_POST['wpus_allow_users'] ) ) {
 			$allow_users = array();
 		   foreach ( $_POST['wpus_allow_users'] as $key => $value ) {
-		     $allow_users[$key] = sanitize_text_field( $value );
+		     $allow_users[ sanitize_key( $key ) ] = sanitize_text_field( $value );
 		   }
 	   update_option( 'wpus_allow_users', $allow_users );
 	} elseif ( empty( $_POST['wpus_allow_users'] ) ) {
