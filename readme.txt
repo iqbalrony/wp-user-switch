@@ -27,9 +27,9 @@ Tags: wp,wp-user-switch,user-switch,user,switch,switching,switch-account,switch-
  * No third party services used nor sent any data to the third party.
  * Compatible with any WordPress site, WooCommerce plugin, Easy Digital Downloads plugin.
 
- ## Looking For Your Feedback ðŸ˜Š
+ ## Looking For Your Feedback  😊
 
- I am looking for your suggestion and feedback on how I can help you in a better way. Feel free to [contact me](https://www.iqbalrony.com) if you need any help. And please don't forget to share your feelings through [â­ï¸â­ï¸â­ï¸â­ï¸â­ï¸ ratting](https://wordpress.org/support/plugin/wp-user-switch/reviews/#new-post) ðŸ˜ƒ
+ I am looking for your suggestion and feedback on how I can help you in a better way. Feel free to [contact me](https://www.iqbalrony.com) if you need any help. And please don't forget to share your feelings through [⭐️⭐️⭐️⭐️⭐️ ratting](https://wordpress.org/support/plugin/wp-user-switch/reviews/#new-post)  😊
 
 == Frequently Asked Questions ==
 
