@@ -14,7 +14,7 @@ Tags: wp,wp-user-switch,user-switch,user,switch,switching,switch-account,switch-
 
 == Description ==
 
-**WP User Switch** is a very simple plugin. It will help you to switch between the user's account in a WordPress site. By one simple click, you will be switch instantly logged out from the present account and logged in to your desired account without type any username and password. This is very useful for test environments where site administrators regularly switch between different accounts for multiple purposes. Site administrators can allow any user to switch between accounts but then allowed users can't switch to an admin account.
+**WP User Switch** is a very simple plugin. It will help you to switch between the user's account in a WordPress site. By one simple click, you will be switch instantly logged out from the present account and logged in to your desired account without type any username and password. This is very useful for test environments where site administrators regularly switch between different accounts for multiple purposes. Site administrators can allow any user to switch between accounts but then allowed users can't switch to an admin account. See the [Github](https://github.com/iqbalrony/wp-user-switch) project repository.
 
 == Features ==
  * Instantly logged out and logged in as your desired user by one click.
@@ -26,6 +26,10 @@ Tags: wp,wp-user-switch,user-switch,user,switch,switching,switch-account,switch-
  * Used the WordPress nonce system, that's why administrators or who are allowed by the administrators only they can switch.
  * No third party services used nor sent any data to the third party.
  * Compatible with any WordPress site, WooCommerce plugin, Easy Digital Downloads plugin.
+
+ ## Looking For Your Feedback ðŸ˜Š
+
+ I am looking for your suggestion and feedback on how I can help you in a better way. Feel free to [contact me](https://www.iqbalrony.com) if you need any help. And please don't forget to share your feelings through [â­ï¸â­ï¸â­ï¸â­ï¸â­ï¸ ratting](https://wordpress.org/support/plugin/wp-user-switch/reviews/#new-post) ðŸ˜ƒ
 
 == Frequently Asked Questions ==
 
@@ -56,3 +60,11 @@ Yes, you can switch users from Front-End. If WooCommerce is installed then you w
 = Can I switch users when i am logged out? =
 
 No, you must be logged in first. Then if you have 'manage options' capability then can switch users. If you don't have this capability then you have to be allowed by the administrators.
+
+== Screenshots ==
+
+1. User Switch Table.
+2. User Switch Settings.
+3. User Switch Adminbar Menu.
+4. User Switch Admin Page.
+5. User Switch Front-End Sticky Menu.
