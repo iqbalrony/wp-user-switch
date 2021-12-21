@@ -94,6 +94,7 @@ class WP_User_Switch {
 	 */
 	public function admin_bar_item ( \WP_Admin_Bar $admin_bar ) {
 		$allow = false;
+		$who_switch = wpus_who_switch();
 		if ( wpus_allow_user_to_admin_bar_menu() === false ) {
 			return;
 		}
@@ -110,6 +111,8 @@ class WP_User_Switch {
 
 		foreach ( get_users() as $user ) {
 			if ( wpus_is_switcher_admin() !== true && array_key_exists( 'manage_options', $user->allcaps ) == true ) {
+				continue;
+			}elseif( ! empty(wpus_selected_user($who_switch)) && ! in_array($user->data->user_login, wpus_selected_user($who_switch))){
 				continue;
 			}
 
@@ -210,4 +213,3 @@ class WP_User_Switch {
 		return self::$_instance;
 	}
 }
-

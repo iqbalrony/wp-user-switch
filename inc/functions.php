@@ -61,6 +61,17 @@ function wpus_is_switcher_admin () {
 }
 
 /**
+ * @return bool
+ */
+function wpus_who_switch () {
+	$who_switch = '';
+	if ( isset( $_COOKIE['wpus_who_switch'] ) ) {
+		$who_switch = sanitize_user($_COOKIE['wpus_who_switch']);
+	}
+	return $who_switch;
+}
+
+/**
  * Footer Markup
  */
 function wpus_frontend_userswitch_list () {
@@ -96,4 +107,49 @@ function wpus_frontend_userswitch_list () {
 		</ul>
 	</div>
 	<?php
+}
+
+
+function wpus_get_user_list($username) {
+	// return;
+	$role = get_option( 'wpus_allow_selected_users' ) ? get_option( 'wpus_allow_selected_users' ) : array();
+	$role = isset($role[$username]) ? $role[$username] : array();
+
+	ob_start();
+	foreach ( get_users() as $user ) {
+		if ( array_key_exists( 'manage_options', $user->allcaps ) == true ) {
+			continue;
+		}
+
+		if( $user->data->user_login == $username ) {
+			?>
+
+				<label style="display: none;">
+					<span class="selected-user-name">
+						<input type="checkbox" name="wpus_allow_selected_users[<?php echo $username;?>][]"
+								value="<?php echo sanitize_user( $username ); ?>" <?php echo  __( 'checked', 'user-switch' ); ?>>
+								<?php echo sanitize_user( $user->data->user_login ); ?>
+					</span>
+				</label>
+			<?php
+
+		}else{
+
+		?>
+			<label>
+				<span class="selected-user-name">
+					<input type="checkbox" name="wpus_allow_selected_users[<?php echo $username;?>][]"
+							value="<?php echo sanitize_user( $user->data->user_login ); ?>" <?php echo in_array( $user->data->user_login, $role ) == true ? __( 'checked', 'user-switch' ) : ''; ?>><?php echo sanitize_user( $user->data->user_login ); ?>
+				</span>
+			</label>
+		<?php
+		}
+	}
+	return ob_get_clean();
+}
+
+function wpus_selected_user($username){
+	$selected_users = get_option( 'wpus_allow_selected_users' ) ? get_option( 'wpus_allow_selected_users' ) : array();
+	$selected_users = isset($selected_users[$username]) ? $selected_users[$username] : array();
+	return $selected_users;
 }

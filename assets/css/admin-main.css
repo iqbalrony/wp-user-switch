@@ -51,7 +51,7 @@
 }
 
 .wpus-allow-user-wrap ul li span {
-	width: 50%;
+	/* width: 50%; */
 	float: left;
 	padding: 10px 10px;
 	box-sizing: border-box;
