@@ -30,7 +30,8 @@
 	float: left;
 }
 .wpus-allow-user-wrap {
-	width: 500px;
+	/* width: 500px; */
+	width: 100%;
 	float: left;
 }
 .wpus-allow-user-wrap ul {
@@ -44,7 +45,8 @@
 }
 
 .wpus-allow-user-wrap ul li {
-	display: block;
+	display: flex;
+	justify-content: space-between;
 	overflow: hidden;
 	margin: 0;
 	border-bottom: 1px solid #ddd;
@@ -52,7 +54,7 @@
 
 .wpus-allow-user-wrap ul li span {
 	/* width: 50%; */
-	float: left;
+	/* float: left; */
 	padding: 10px 10px;
 	box-sizing: border-box;
 	display: block;
@@ -67,6 +69,34 @@
 	font-weight: 600;
 }
 
-.wpus-allow-user-wrap ul li span:first-child {
+/* .wpus-allow-user-wrap ul li.title span.username,
+.wpus-allow-user-wrap ul li.title span.name {
+	flex: 0 0 25%;
+} */
+
+.wpus-allow-user-wrap ul li > span:nth-child(1),
+.wpus-allow-user-wrap ul li > span:nth-child(2) {
+	flex: 0 0 25%;
+}
+.wpus-allow-user-wrap ul li > span:nth-child(3) {
+	flex: 0 0 50%;
+}
+
+.wpus-allow-user-wrap ul li span {
 	border-right: 1px solid #ddd;
+}
+
+.wpus-allow-user-wrap ul li span:last-child {
+	border-right: 0;
+}
+
+.wpus-allow-user-wrap ul li span.selected-users,
+.wpus-allow-user-wrap ul li span.selected-users span {
+	border: none;
+}
+.wpus-allow-user-wrap ul li span.selected-users {
+	display: inline-flex;
+	flex-wrap: wrap;
+	max-height: 200px;
+    overflow: auto;
 }

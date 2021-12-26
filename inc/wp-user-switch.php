@@ -110,6 +110,9 @@ class WP_User_Switch {
 		) );
 
 		foreach ( get_users() as $user ) {
+			// echo '<pre>';
+			// var_dump(empty(wpus_selected_user($who_switch)));
+			// echo '</pre>';
 			if ( wpus_is_switcher_admin() !== true && array_key_exists( 'manage_options', $user->allcaps ) == true ) {
 				continue;
 			}elseif( ! empty(wpus_selected_user($who_switch)) && ! in_array($user->data->user_login, wpus_selected_user($who_switch))){

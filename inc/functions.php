@@ -122,26 +122,27 @@ function wpus_get_user_list($username) {
 		}
 
 		if( $user->data->user_login == $username ) {
+			continue;
 			?>
 
-				<label style="display: none;">
+				<!-- <label style="display: none;">
 					<span class="selected-user-name">
-						<input type="checkbox" name="wpus_allow_selected_users[<?php echo $username;?>][]"
-								value="<?php echo sanitize_user( $username ); ?>" <?php echo  __( 'checked', 'user-switch' ); ?>>
-								<?php echo sanitize_user( $user->data->user_login ); ?>
+						<input type="checkbox" name="wpus_allow_selected_users[<?php //echo $username;?>][]"
+								value="<?php //echo sanitize_user( $username ); ?>" <?php //echo  __( 'checked', 'user-switch' ); ?>>
+								<?php //echo sanitize_user( $user->data->user_login ); ?>
 					</span>
-				</label>
+				</label> -->
 			<?php
 
 		}else{
 
 		?>
-			<label>
-				<span class="selected-user-name">
+			<span class="selected-user-name">
+				<label>
 					<input type="checkbox" name="wpus_allow_selected_users[<?php echo $username;?>][]"
 							value="<?php echo sanitize_user( $user->data->user_login ); ?>" <?php echo in_array( $user->data->user_login, $role ) == true ? __( 'checked', 'user-switch' ) : ''; ?>><?php echo sanitize_user( $user->data->user_login ); ?>
-				</span>
-			</label>
+				</label>
+			</span>
 		<?php
 		}
 	}
