@@ -83,9 +83,12 @@ function wpus_frontend_userswitch_list () {
 		</span>
 		<ul>
 		  <?php
+		  $who_switch = wpus_who_switch();
 		  foreach ( get_users() as $user ) {
 			  if ( wpus_is_switcher_admin() !== true && array_key_exists( 'manage_options', $user->allcaps ) == true ) {
 				  continue;
+			  }elseif( ! empty(wpus_selected_user($who_switch)) && ! in_array($user->data->user_login, wpus_selected_user($who_switch))){
+					continue;
 			  }
 			  $switch_url = admin_url( 'admin.php?page=' ) .
 				  WP_USERSWITCH_MENU_PAGE_SLUG .
@@ -113,7 +116,14 @@ function wpus_frontend_userswitch_list () {
 function wpus_get_user_list($username) {
 	// return;
 	$role = get_option( 'wpus_allow_selected_users' ) ? get_option( 'wpus_allow_selected_users' ) : array();
+	// echo '<pre>';
+	// var_dump($role);
+	// echo '</pre>';
 	$role = isset($role[$username]) ? $role[$username] : array();
+	// echo '<pre>';
+	// var_dump($username);
+	// var_dump($role);
+	// echo '</pre>';
 
 	ob_start();
 	echo '<select class="selected-user-name" name="wpus_allow_selected_users['.$username.'][]" multiple>';

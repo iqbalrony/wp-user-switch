@@ -28,7 +28,7 @@ if ( isset($_POST['wpus_allow_users_submit']) && wp_verify_nonce( $_POST['wpus_a
 			 }
 		    //  $selected_users[ sanitize_key( $key ) ] = sanitize_text_field( $value );
 			 foreach ( $value as $key2 => $value2 ) {
-				$selected_users[ sanitize_key( $key ) ][] = sanitize_text_field( $value2 );
+				$selected_users[ $key ][] = sanitize_text_field( $value2 );
 			  }
 		   }
 		//    echo '<pre>';
@@ -45,7 +45,8 @@ if ( isset($_POST['wpus_allow_users_submit']) && wp_verify_nonce( $_POST['wpus_a
 }
 // update_option( 'wpus_allow_selected_users', array() );
 // echo '<pre>';
-// var_dump(get_option( 'wpus_allow_selected_users' ));
+// var_dump( get_option( 'wpus_allow_selected_users' ) );
+// var_dump( $_POST['wpus_allow_selected_users'] );
 // echo '</pre>';
 $role = get_option( 'wpus_allow_users' ) ? get_option( 'wpus_allow_users' ) : array();
 $i = 0;
