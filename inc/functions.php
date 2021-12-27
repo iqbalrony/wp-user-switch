@@ -116,36 +116,35 @@ function wpus_get_user_list($username) {
 	$role = isset($role[$username]) ? $role[$username] : array();
 
 	ob_start();
+
+	echo '<select class="selected-user-name" name="wpus_allow_selected_users['.$username.'][]" multiple>';
 	foreach ( get_users() as $user ) {
 		if ( array_key_exists( 'manage_options', $user->allcaps ) == true ) {
 			continue;
-		}
-
-		if( $user->data->user_login == $username ) {
+		}elseif ( $user->data->user_login == $username) {
 			continue;
-			?>
-
-				<!-- <label style="display: none;">
-					<span class="selected-user-name">
-						<input type="checkbox" name="wpus_allow_selected_users[<?php //echo $username;?>][]"
-								value="<?php //echo sanitize_user( $username ); ?>" <?php //echo  __( 'checked', 'user-switch' ); ?>>
-								<?php //echo sanitize_user( $user->data->user_login ); ?>
-					</span>
-				</label> -->
-			<?php
-
-		}else{
-
-		?>
-			<span class="selected-user-name">
-				<label>
-					<input type="checkbox" name="wpus_allow_selected_users[<?php echo $username;?>][]"
-							value="<?php echo sanitize_user( $user->data->user_login ); ?>" <?php echo in_array( $user->data->user_login, $role ) == true ? __( 'checked', 'user-switch' ) : ''; ?>><?php echo sanitize_user( $user->data->user_login ); ?>
-				</label>
-			</span>
-		<?php
 		}
+
+		$selected = in_array( $user->data->user_login, $role ) == true ? 'selected' : '';
+
+		echo '<option value="'.sanitize_user( $user->data->user_login ).'" '.$selected.'>'.esc_html( $user->data->display_name ).'</option>';
 	}
+	?>
+	<option value="volvo">Volvo</option>
+  <option value="saab">Saab</option>
+  <option value="mercedes">Mercedes</option>
+  <option value="audi">Audi</option>
+  <option value="volvo">Volvo</option>
+  <option value="saab">Saab</option>
+  <option value="mercedes">Mercedes</option>
+  <option value="audi">Audi</option>
+  <option value="volvo">Volvo</option>
+  <option value="saab">Saab</option>
+  <option value="mercedes">Mercedes</option>
+  <option value="audi">Audi</option>
+	<?php
+
+	echo '</select>';
 	return ob_get_clean();
 }
 

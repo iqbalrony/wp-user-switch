@@ -82,6 +82,7 @@ $i = 0;
 										<?php
 											echo wpus_get_user_list(sanitize_user( $user->data->user_login ));
 										?>
+										<div class="wpus-select2-dropdown-container"></div>
 									 </span>
 								 </li>
 						  <?php $i++; endforeach; ?>
