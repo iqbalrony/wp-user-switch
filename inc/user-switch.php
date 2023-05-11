@@ -7,7 +7,7 @@ namespace IqbalRony\WP_User_Switch;
 
 use WP_Admin_Bar;
 
-class WP_User_Switch {
+class User_Switch {
 
 	/**
 	 * @var
@@ -16,7 +16,7 @@ class WP_User_Switch {
 
 
 	/**
-	 * WP_User_Switch constructor.
+	 * User_Switch constructor.
 	 */
 	public function __construct () {
 		add_action( 'init', array( $this, 'set_cookie_if_not_set' ) );
@@ -33,24 +33,26 @@ class WP_User_Switch {
 
 
 	/**
-	 * Set user role cookie by user login
+	 * Set cookie on login
 	 * @param $user_login
 	 */
 	public function set_cookie_by_login ( $user_login ) {
 		$user = get_user_by( 'login', $user_login );
 		$user_login = $user->user_login;
-		setcookie( 'wpus_who_switch', sanitize_user( $user_login ), time() + ( 1 * YEAR_IN_SECONDS ), COOKIEPATH, COOKIE_DOMAIN );
+		// the user who switching
+		setcookie( WP_USERSWITCH_LOGGED_IN_COOKIE, sanitize_user( $user_login ), time() + ( 1 * YEAR_IN_SECONDS ), COOKIEPATH, COOKIE_DOMAIN );
 	}
 
 
 	/**
-	 * Set user role cookie if it is not set by login
+	 * Set cookie if it is not set by login
 	 */
 	public function set_cookie_if_not_set () {
-		if ( is_user_logged_in() && ! isset( $_COOKIE['wpus_who_switch'] ) ) {
+		if ( is_user_logged_in() && ! isset( $_COOKIE[ WP_USERSWITCH_LOGGED_IN_COOKIE ] ) ) {
 			$user = wp_get_current_user();
 			$user_login = $user->user_login;
-			setcookie( 'wpus_who_switch', sanitize_user( $user_login ), time() + ( 1 * YEAR_IN_SECONDS ), COOKIEPATH, COOKIE_DOMAIN );
+			// the user who switching
+			setcookie( WP_USERSWITCH_LOGGED_IN_COOKIE, sanitize_user( $user_login ), time() + ( 1 * YEAR_IN_SECONDS ), COOKIEPATH, COOKIE_DOMAIN );
 		}
 	}
 
@@ -59,8 +61,8 @@ class WP_User_Switch {
 	 * remove user role cookie when user logout or deactivate
 	 */
 	public function remove_cookie () {
-		unset( $_COOKIE['wpus_who_switch'] );
-		setcookie( 'wpus_who_switch', '', time() - ( 15 * 60 ), COOKIEPATH, COOKIE_DOMAIN );
+		unset( $_COOKIE[ WP_USERSWITCH_LOGGED_IN_COOKIE ] );
+		setcookie( WP_USERSWITCH_LOGGED_IN_COOKIE, '', time() - ( 15 * 60 ), COOKIEPATH, COOKIE_DOMAIN );
 	}
 
 
@@ -210,4 +212,3 @@ class WP_User_Switch {
 		return self::$_instance;
 	}
 }
-

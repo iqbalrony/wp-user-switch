@@ -29,8 +29,8 @@ function wpus_allow_user_to_admin_bar_menu () {
 	if ( current_user_can( 'manage_options' ) ) {
 		$allow = true;
 	} else {
-		if ( isset( $_COOKIE['wpus_who_switch'] ) ) {
-			$allowed_user_cookie = sanitize_user($_COOKIE['wpus_who_switch']);
+		if ( isset( $_COOKIE[ WP_USERSWITCH_LOGGED_IN_COOKIE ] ) ) {
+			$allowed_user_cookie = sanitize_user($_COOKIE[ WP_USERSWITCH_LOGGED_IN_COOKIE ]);
 		}
 		$user = get_user_by( 'login', $allowed_user_cookie );
 		$allcaps = is_object( $user ) ? (array) $user->allcaps : array();
@@ -48,8 +48,8 @@ function wpus_allow_user_to_admin_bar_menu () {
  */
 function wpus_is_switcher_admin () {
 	$allowed_user_cookie = '';
-	if ( isset( $_COOKIE['wpus_who_switch'] ) ) {
-		$allowed_user_cookie = sanitize_user($_COOKIE['wpus_who_switch']);
+	if ( isset( $_COOKIE[ WP_USERSWITCH_LOGGED_IN_COOKIE ] ) ) {
+		$allowed_user_cookie = sanitize_user($_COOKIE[ WP_USERSWITCH_LOGGED_IN_COOKIE ]);
 	}
 	$user = get_user_by( 'login', $allowed_user_cookie );
 	$allcaps = is_object( $user ) ? (array) $user->allcaps : array();
