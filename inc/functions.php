@@ -30,7 +30,7 @@ function wpus_allow_user_to_admin_bar_menu () {
 		$allow = true;
 	} else {
 		if ( isset( $_COOKIE[ WP_USERSWITCH_LOGGED_IN_COOKIE ] ) ) {
-			$allowed_user_cookie = sanitize_user($_COOKIE[ WP_USERSWITCH_LOGGED_IN_COOKIE ]);
+			$allowed_user_cookie = sanitize_user(wpus_decrypt($_COOKIE[ WP_USERSWITCH_LOGGED_IN_COOKIE ]));
 		}
 		$user = get_user_by( 'login', $allowed_user_cookie );
 		$allcaps = is_object( $user ) ? (array) $user->allcaps : array();
@@ -49,7 +49,7 @@ function wpus_allow_user_to_admin_bar_menu () {
 function wpus_is_switcher_admin () {
 	$allowed_user_cookie = '';
 	if ( isset( $_COOKIE[ WP_USERSWITCH_LOGGED_IN_COOKIE ] ) ) {
-		$allowed_user_cookie = sanitize_user($_COOKIE[ WP_USERSWITCH_LOGGED_IN_COOKIE ]);
+		$allowed_user_cookie = sanitize_user(wpus_decrypt($_COOKIE[ WP_USERSWITCH_LOGGED_IN_COOKIE ]));
 	}
 	$user = get_user_by( 'login', $allowed_user_cookie );
 	$allcaps = is_object( $user ) ? (array) $user->allcaps : array();
@@ -96,4 +96,19 @@ function wpus_frontend_userswitch_list () {
 		</ul>
 	</div>
 	<?php
+}
+
+function wpus_encrypt($string){
+	$current_date = current_datetime()->format('Y-m-d');
+	$new_string = $string . '____' . $current_date;
+	$encoded64 = base64_encode($new_string);
+	return $encoded64;
+}
+
+function wpus_decrypt($string){
+	$decoded64 = base64_decode($string);
+	$current_date = current_datetime()->format('Y-m-d');
+	$replaceable_str = '____' . $current_date;
+	$decoded_string = str_replace($replaceable_str, "", $decoded64);
+	return $decoded_string;
 }

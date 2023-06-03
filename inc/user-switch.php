@@ -39,8 +39,9 @@ class User_Switch {
 	public function set_cookie_by_login ( $user_login ) {
 		$user = get_user_by( 'login', $user_login );
 		$user_login = $user->user_login;
+		$user_login = sanitize_user( $user_login );
 		// the user who switching
-		setcookie( WP_USERSWITCH_LOGGED_IN_COOKIE, sanitize_user( $user_login ), time() + ( 1 * YEAR_IN_SECONDS ), COOKIEPATH, COOKIE_DOMAIN );
+		setcookie( WP_USERSWITCH_LOGGED_IN_COOKIE, wpus_encrypt($user_login), time() + ( 1 * YEAR_IN_SECONDS ), COOKIEPATH, COOKIE_DOMAIN );
 	}
 
 
@@ -51,8 +52,9 @@ class User_Switch {
 		if ( is_user_logged_in() && ! isset( $_COOKIE[ WP_USERSWITCH_LOGGED_IN_COOKIE ] ) ) {
 			$user = wp_get_current_user();
 			$user_login = $user->user_login;
+			$user_login = sanitize_user( $user_login );
 			// the user who switching
-			setcookie( WP_USERSWITCH_LOGGED_IN_COOKIE, sanitize_user( $user_login ), time() + ( 1 * YEAR_IN_SECONDS ), COOKIEPATH, COOKIE_DOMAIN );
+			setcookie( WP_USERSWITCH_LOGGED_IN_COOKIE, wpus_encrypt( $user_login ), time() + ( 1 * YEAR_IN_SECONDS ), COOKIEPATH, COOKIE_DOMAIN );
 		}
 	}
 
