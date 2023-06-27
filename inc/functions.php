@@ -29,9 +29,10 @@ function wpus_allow_user_to_admin_bar_menu () {
 	if ( current_user_can( 'manage_options' ) ) {
 		$allow = true;
 	} else {
-		$set_option = get_option(WP_USERSWITCH_LOGGED_IN_COOKIE, false);
+		// $set_option = get_option(WP_USERSWITCH_LOGGED_IN_COOKIE, false);
+		$set_option = wpus_match();
 		if ( $set_option ) {
-			$allowed_user_cookie = sanitize_user(wpus_decrypt($set_option));
+			$allowed_user_cookie = sanitize_user($set_option);
 		}
 		$user = get_user_by( 'login', $allowed_user_cookie );
 		$allcaps = is_object( $user ) ? (array) $user->allcaps : array();
@@ -49,9 +50,10 @@ function wpus_allow_user_to_admin_bar_menu () {
  */
 function wpus_is_switcher_admin () {
 	$allowed_user_cookie = '';
-	$set_option = get_option(WP_USERSWITCH_LOGGED_IN_COOKIE, false);
+	// $set_option = get_option(WP_USERSWITCH_LOGGED_IN_COOKIE, false);
+	$set_option = wpus_match();
 	if ( $set_option ) {
-		$allowed_user_cookie = sanitize_user(wpus_decrypt($set_option));
+		$allowed_user_cookie = sanitize_user($set_option);
 	}
 	$user = get_user_by( 'login', $allowed_user_cookie );
 	$allcaps = is_object( $user ) ? (array) $user->allcaps : array();
@@ -113,4 +115,20 @@ function wpus_decrypt($string){
 	$replaceable_str = '____' . $current_date;
 	$decoded_string = str_replace($replaceable_str, "", $decoded64);
 	return $decoded_string;
+}
+
+function wpus_match(){
+	$cookie = $_COOKIE[ WP_USERSWITCH_LOGGED_IN_COOKIE ];
+	if( isset( $cookie ) && !empty( $cookie ) ) {
+		$match_user = '';
+		foreach ( get_users() as $user ) {
+			$user_login = sanitize_user( $user->data->user_login );
+			$user = md5( $user_login );
+			if( $cookie == $user ) {
+				$match_user = $user_login;
+			}
+		}
+		return $match_user;
+	}
+	return false;
 }
