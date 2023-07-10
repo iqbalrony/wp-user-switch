@@ -29,10 +29,9 @@ function wpus_allow_user_to_admin_bar_menu () {
 	if ( current_user_can( 'manage_options' ) ) {
 		$allow = true;
 	} else {
-		// $set_option = get_option(WP_USERSWITCH_LOGGED_IN_COOKIE, false);
-		$set_option = wpus_match();
+		$set_option = wpus_get_switched_user();
 		if ( $set_option ) {
-			$allowed_user_cookie = sanitize_user($set_option);
+			$allowed_user_cookie = sanitize_user($set_option->data->user_login);
 		}
 		$user = get_user_by( 'login', $allowed_user_cookie );
 		$allcaps = is_object( $user ) ? (array) $user->allcaps : array();
@@ -50,10 +49,9 @@ function wpus_allow_user_to_admin_bar_menu () {
  */
 function wpus_is_switcher_admin () {
 	$allowed_user_cookie = '';
-	// $set_option = get_option(WP_USERSWITCH_LOGGED_IN_COOKIE, false);
-	$set_option = wpus_match();
+	$set_option = wpus_get_switched_user();
 	if ( $set_option ) {
-		$allowed_user_cookie = sanitize_user($set_option);
+		$allowed_user_cookie = sanitize_user($set_option->data->user_login);
 	}
 	$user = get_user_by( 'login', $allowed_user_cookie );
 	$allcaps = is_object( $user ) ? (array) $user->allcaps : array();
@@ -102,33 +100,31 @@ function wpus_frontend_userswitch_list () {
 	<?php
 }
 
-function wpus_encrypt($string){
-	$current_date = current_datetime()->format('Y-m-d');
-	$new_string = $string . '____' . $current_date;
-	$encoded64 = base64_encode($new_string);
-	return $encoded64;
+function wpus_set_user_cookie( $user_id ) {
+	$token = function_exists( 'wp_get_session_token' ) ? wp_get_session_token() : '';
+	$expiration = time() + ( 1 * DAY_IN_SECONDS ); // 24 hours
+	$auth_cookie = wp_generate_auth_cookie( $user_id, $expiration, 'logged_in', $token );
+	$secure_cookie = ( is_ssl() && ( 'https' === parse_url( home_url(), PHP_URL_SCHEME ) ) );
+	$http_only = true;
+	setcookie( WP_USERSWITCH_LOGGED_IN_COOKIE, $auth_cookie, $expiration, COOKIEPATH, COOKIE_DOMAIN, $secure_cookie, $http_only );
 }
 
-function wpus_decrypt($string){
-	$decoded64 = base64_decode($string);
-	$current_date = current_datetime()->format('Y-m-d');
-	$replaceable_str = '____' . $current_date;
-	$decoded_string = str_replace($replaceable_str, "", $decoded64);
-	return $decoded_string;
+
+function wpus_get_user_cookie() {
+	if ( isset( $_COOKIE[ WP_USERSWITCH_LOGGED_IN_COOKIE ] ) ) {
+		return wp_unslash( $_COOKIE[ WP_USERSWITCH_LOGGED_IN_COOKIE ] );
+	}
+	return false;
 }
 
-function wpus_match(){
-	$cookie = $_COOKIE[ WP_USERSWITCH_LOGGED_IN_COOKIE ];
-	if( isset( $cookie ) && !empty( $cookie ) ) {
-		$match_user = '';
-		foreach ( get_users() as $user ) {
-			$user_login = sanitize_user( $user->data->user_login );
-			$user = md5( $user_login );
-			if( $cookie == $user ) {
-				$match_user = $user_login;
-			}
+function wpus_get_switched_user() {
+	$cookie = wpus_get_user_cookie();
+	if ( ! empty( $cookie ) ) {
+		$old_user_id = wp_validate_auth_cookie( $cookie, 'logged_in' );
+		if ( $old_user_id ) {
+			return get_userdata( $old_user_id );
 		}
-		return $match_user;
+		return false;
 	}
 	return false;
 }

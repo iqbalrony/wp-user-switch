@@ -4,7 +4,7 @@ namespace IqbalRony\WP_User_Switch;
 if ( ! defined( 'ABSPATH' ) ) {
 	die;
 }
-if ( $_POST['wpus_allow_users_submit'] && wp_verify_nonce( $_POST['wpus_allow_users_nonce'], 'wpus_allow_users_nonce' ) ) {
+if ( isset( $_POST['wpus_allow_users_submit'] ) && $_POST['wpus_allow_users_submit'] && wp_verify_nonce( $_POST['wpus_allow_users_nonce'], 'wpus_allow_users_nonce' ) ) {
 	if ( isset( $_POST['wpus_allow_users'] ) && ! empty( $_POST['wpus_allow_users'] ) && is_array( $_POST['wpus_allow_users'] ) ) {
 			$allow_users = array();
 		   foreach ( $_POST['wpus_allow_users'] as $key => $value ) {

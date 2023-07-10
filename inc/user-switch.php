@@ -38,12 +38,7 @@ class User_Switch {
 	 */
 	public function set_cookie_by_login ( $user_login ) {
 		$user = get_user_by( 'login', $user_login );
-		$user_login = $user->user_login;
-		$user_login = sanitize_user( $user_login );
-		// the user who switching
-		// setcookie( WP_USERSWITCH_LOGGED_IN_COOKIE, wpus_encrypt($user_login), time() + ( 1 * YEAR_IN_SECONDS ), COOKIEPATH, COOKIE_DOMAIN );
-		setcookie( WP_USERSWITCH_LOGGED_IN_COOKIE, md5( $user_login ), time() + ( 1 * YEAR_IN_SECONDS ), COOKIEPATH, COOKIE_DOMAIN );
-		// update_option(WP_USERSWITCH_LOGGED_IN_COOKIE, wpus_encrypt( $user_login ), true);
+		wpus_set_user_cookie( sanitize_user( $user->ID ) );
 	}
 
 
@@ -52,14 +47,8 @@ class User_Switch {
 	 */
 	public function set_cookie_if_not_set () {
 		if ( is_user_logged_in() && ! isset( $_COOKIE[ WP_USERSWITCH_LOGGED_IN_COOKIE ] ) ) {
-		// if ( is_user_logged_in() && ! get_option(WP_USERSWITCH_LOGGED_IN_COOKIE, false) ) {
 			$user = wp_get_current_user();
-			$user_login = $user->user_login;
-			$user_login = sanitize_user( $user_login );
-			// the user who switching
-			// setcookie( WP_USERSWITCH_LOGGED_IN_COOKIE, wpus_encrypt( $user_login ), time() + ( 1 * YEAR_IN_SECONDS ), COOKIEPATH, COOKIE_DOMAIN );
-			setcookie( WP_USERSWITCH_LOGGED_IN_COOKIE, md5( $user_login ), time() + ( 1 * YEAR_IN_SECONDS ), COOKIEPATH, COOKIE_DOMAIN );
-			// update_option(WP_USERSWITCH_LOGGED_IN_COOKIE, wpus_encrypt( $user_login ), true);
+			wpus_set_user_cookie( sanitize_user( $user->ID ) );
 		}
 	}
 
@@ -68,9 +57,7 @@ class User_Switch {
 	 * remove user role cookie when user logout or deactivate
 	 */
 	public function remove_cookie () {
-		// delete_option(WP_USERSWITCH_LOGGED_IN_COOKIE);
 		unset( $_COOKIE[ WP_USERSWITCH_LOGGED_IN_COOKIE ] );
-		// setcookie( WP_USERSWITCH_LOGGED_IN_COOKIE, '', time() - ( 15 * 60 ), COOKIEPATH, COOKIE_DOMAIN );
 		setcookie( WP_USERSWITCH_LOGGED_IN_COOKIE, '', time() - ( 15 * 60 ), COOKIEPATH, COOKIE_DOMAIN );
 	}
 

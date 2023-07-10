@@ -1,7 +1,7 @@
 === WP User Switch ===
 Plugin Name: WP User Switch
 Contributors: iqbalrony
-Version: 1.0.3
+Version: 1.0.4
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 Requires PHP: 5.6
@@ -68,3 +68,10 @@ No, you must be logged in first. Then if you have 'manage options' capability th
 3. User Switch Adminbar Menu.
 4. User Switch Admin Page.
 5. User Switch Front-End Sticky Menu.
+
+
+== Changelog ==
+
+= 1.0.4
+
+- Update: improve and secure cookie set process.
