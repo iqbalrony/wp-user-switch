@@ -139,7 +139,8 @@ class User_Switch {
 	 * User Switch function
 	 */
 	public function user_switch () {
-		if ( is_user_logged_in() ) {
+		
+		if ( is_user_logged_in() && wpus_allow_user_to_admin_bar_menu() != false ) {
 			if ( isset( $_REQUEST['wpus_username'] ) && ! empty( $_REQUEST['wpus_username'] ) && isset( $_REQUEST['wpus_userid'] ) && ! empty( $_REQUEST['wpus_userid'] ) ) {
 				$username = sanitize_user( $_REQUEST['wpus_username'] );
 				$userid = esc_html( $_REQUEST['wpus_userid'] );
