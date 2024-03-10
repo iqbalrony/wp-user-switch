@@ -90,7 +90,7 @@ function wpus_frontend_userswitch_list () {
 				  wp_create_nonce( 'wp_user_switch_req' );
 			  ?>
 				 <li>
-					 <a href="<?php echo esc_url( $switch_url ); ?>"><?php esc_html_e( $user->data->display_name ); ?></a>
+					 <a href="<?php echo esc_url( $switch_url ); ?>"><?php echo esc_html( $user->data->display_name ); ?></a>
 				 </li>
 			  <?php
 		  }

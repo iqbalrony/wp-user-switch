@@ -4,7 +4,7 @@ namespace IqbalRony\WP_User_Switch;
 if ( ! defined( 'ABSPATH' ) ) {
 	die;
 }
-if ( isset( $_POST['wpus_allow_users_submit'] ) && $_POST['wpus_allow_users_submit'] && wp_verify_nonce( $_POST['wpus_allow_users_nonce'], 'wpus_allow_users_nonce' ) ) {
+if ( wp_verify_nonce( $_POST['wpus_allow_users_nonce'], 'wpus_allow_users_nonce' ) && isset( $_POST['wpus_allow_users_submit'] ) && $_POST['wpus_allow_users_submit'] ) {
 	if ( isset( $_POST['wpus_allow_users'] ) && ! empty( $_POST['wpus_allow_users'] ) && is_array( $_POST['wpus_allow_users'] ) ) {
 			$allow_users = array();
 		   foreach ( $_POST['wpus_allow_users'] as $key => $value ) {
@@ -40,8 +40,9 @@ $i = 0;
 								 <li>
 									 <label>
 									 <span class="username">
-										 <input type="checkbox" name="wpus_allow_users[<?php echo $i; ?>]"
-										        value="<?php echo sanitize_user( $user->data->user_login ); ?>" <?php echo in_array( $user->data->user_login, $role ) == true ? __( 'checked', 'user-switch' ) : ''; ?>><?php echo sanitize_user( $user->data->user_login ); ?>
+										 <input type="checkbox" name="wpus_allow_users[<?php echo esc_html($i); ?>]"
+										        value="<?php echo sanitize_user( $user->data->user_login ); ?>" <?php echo in_array( $user->data->user_login, $role ) == true ? esc_html( 'checked' ) : ''; ?>>
+												<?php echo sanitize_user( $user->data->user_login ); ?>
 									 </span>
 									 </label>
 									 <span class="display-name"><?php echo esc_html( $user->data->display_name ); ?></span>

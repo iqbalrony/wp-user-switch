@@ -15,6 +15,12 @@ if (!defined('ABSPATH')) {
 	die;
 }
 /**
+ * Define plugin version
+ */
+if (!defined('WP_USERSWITCH_VERSION')) {
+	define('WP_USERSWITCH_VERSION', '1.0.4');
+}
+/**
  * Define plugin directory path
  */
 if (!defined('WP_USERSWITCH_PATH')) {

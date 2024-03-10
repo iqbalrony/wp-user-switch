@@ -139,19 +139,18 @@ class User_Switch {
 	 * User Switch function
 	 */
 	public function user_switch () {
-		
+
 		if ( is_user_logged_in() && wpus_allow_user_to_admin_bar_menu() != false ) {
 			if ( isset( $_REQUEST['wpus_username'] ) && ! empty( $_REQUEST['wpus_username'] ) && isset( $_REQUEST['wpus_userid'] ) && ! empty( $_REQUEST['wpus_userid'] ) ) {
+				if ( empty( $_REQUEST['wpus_nonce'] ) ) return;
+				if ( ! wp_verify_nonce( $_REQUEST['wpus_nonce'], 'wp_user_switch_req' ) ) return;
+
 				$username = sanitize_user( $_REQUEST['wpus_username'] );
 				$userid = esc_html( $_REQUEST['wpus_userid'] );
 				wp_clear_auth_cookie();
 				$user = get_user_by( 'login', $username );
 				$user_id = esc_html( $user->ID );
 				if ( $userid != $user_id ) return;
-
-				if ( empty( $_REQUEST['wpus_nonce'] ) ) return;
-
-				if ( ! wp_verify_nonce( $_REQUEST['wpus_nonce'], 'wp_user_switch_req' ) ) return;
 
 				wp_set_current_user( $user_id, $username );
 				wp_set_auth_cookie( $user_id );
