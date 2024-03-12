@@ -7,7 +7,7 @@ License URI: https://www.gnu.org/licenses/gpl-2.0.html
 Requires PHP: 5.6
 Requires at least: 4.5
 Tested up to: 6.2
-Stable tag: trunk
+Stable tag: 1.0.5
 Tags: WP User Switch, User Switch, User Switching, Switch User, Switching Account
 
 **WP User Switch** is a very simple plugin which will help you to switch instantly between the user's account in a WordPress site.
