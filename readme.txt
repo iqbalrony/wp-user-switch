@@ -1,7 +1,7 @@
 === WP User Switch ===
 Plugin Name: WP User Switch
 Contributors: iqbalrony
-Version: 1.0.4
+Version: 1.0.5
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 Requires PHP: 5.6
@@ -71,6 +71,10 @@ No, you must be logged in first. Then if you have 'manage options' capability th
 
 
 == Changelog ==
+
+= 1.0.5
+
+- Fix: Security improvement and bug fixing
 
 = 1.0.4
 
