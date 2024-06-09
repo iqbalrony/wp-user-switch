@@ -78,6 +78,13 @@ function wpus_frontend_userswitch_list () {
 			  if ( wpus_is_switcher_admin() !== true && array_key_exists( 'manage_options', $user->allcaps ) == true ) {
 				  continue;
 			  }
+
+			  $user_caps_count = wpus_user_caps_count( $user->data->ID );
+			  if ( ! wpus_check_caps_level( $user_caps_count ) ) {
+				  // checking user capabilities. user only able to switch account to a same or lower permission role
+				  continue;
+			  }
+
 			  $switch_url = admin_url( 'admin.php?page=' ) .
 				  WP_USERSWITCH_MENU_PAGE_SLUG .
 				  '&wpus_username=' .
@@ -129,40 +136,16 @@ function wpus_get_switched_user() {
 	return false;
 }
 
-function wpus_user_level_check( $role ) {
-	$level = [
-		'administrator' => 100,
-		'editor' => 99,
-		'author' => 98,
-		'contributor' => 97,
-		'shop_manager' => 96,
-		'subscriber' => 95,
-		'customer' => 94,
-	];
-	return $level[$role];
-}
-
 function wpus_user_caps_count( $user_id ) {
 	// $user = get_user_by( 'login', $user_id );
 	$user = get_user_by( 'id', $user_id );
-	$user_cap_count = count( $user->allcaps );
+	$user_cap_count = count( (array) $user->allcaps );
 	return $user_cap_count;
 }
 
 function wpus_check_caps_level( $user_caps_count ) {
 	$switched_user = wpus_get_switched_user();
-	$switched_user_cap_count = count( $switched_user->allcaps );
-
-	// error_log( print_r( 'user_caps_count = '.$user_caps_count , 1 ) );
-	// error_log( print_r( 'switched_user_cap_count = '.$switched_user_cap_count , 1 ) );
-
-	// if ( $user_caps_count <= $switched_user_cap_count ) {
-	// 	error_log( print_r( 'user are capable' , 1 ) );
-	// 	error_log( print_r( '=========================' , 1 ) );
-	// } else {
-	// 	error_log( print_r( 'user are not capable' , 1 ) );
-	// 	error_log( print_r( '=========================' , 1 ) );
-	// }
+	$switched_user_cap_count = count( (array) $switched_user->allcaps );
 
 	return ( $user_caps_count <= $switched_user_cap_count );
 }

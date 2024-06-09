@@ -111,6 +111,12 @@ class User_Switch {
 				continue;
 			}
 
+			$user_caps_count = wpus_user_caps_count( $user->data->ID );
+			if ( ! wpus_check_caps_level( $user_caps_count ) ) {
+				// checking user capabilities. user only able to switch account to a same or lower permission role
+				continue;
+			}
+
 			$switch_url = admin_url( 'admin.php?page=' ) .
 				WP_USERSWITCH_MENU_PAGE_SLUG .
 				'&wpus_username=' .
