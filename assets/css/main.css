@@ -1,4 +1,8 @@
 /*Front End*/
+html.elementor-html .wpus_front_list {
+	display: none;
+}
+
 .wpus_front_list {
 	position: fixed;
 	left: 0;

@@ -145,21 +145,28 @@ class User_Switch {
 				if ( empty( $_REQUEST['wpus_nonce'] ) ) return;
 				if ( ! wp_verify_nonce( $_REQUEST['wpus_nonce'], 'wp_user_switch_req' ) ) return;
 
-				$username = sanitize_user( $_REQUEST['wpus_username'] );
-				$userid = esc_html( $_REQUEST['wpus_userid'] );
-				wp_clear_auth_cookie();
-				$user = get_user_by( 'login', $username );
-				$user_id = esc_html( $user->ID );
-				if ( $userid != $user_id ) return;
+				$user_caps_count = wpus_user_caps_count( $_REQUEST['wpus_userid'] );
+				$allow_to_switch = wpus_check_caps_level( $user_caps_count );
 
-				wp_set_current_user( $user_id, $username );
-				wp_set_auth_cookie( $user_id );
+				$username = sanitize_user( $_REQUEST['wpus_username'] );
+				$requested_userid = esc_html( $_REQUEST['wpus_userid'] );
+
+				wp_clear_auth_cookie();
+
+				$user = get_user_by( 'login', $username );
+				$database_user_id = esc_html( $user->ID );
+
+				if ( $requested_userid != $database_user_id ) return;
+				if ( ! $allow_to_switch ) return;
+
+				wp_set_current_user( $database_user_id, $username );
+				wp_set_auth_cookie( $database_user_id );
 				$redirect_loc = admin_url( 'admin.php?page=' ) . WP_USERSWITCH_MENU_PAGE_SLUG;
-				if ( $_REQUEST['redirect'] ) {
+				if ( isset( $_REQUEST['redirect'] ) && $_REQUEST['redirect'] ) {
 					$redirect_loc = ( isset( $_SERVER['HTTPS'] ) && $_SERVER['HTTPS'] === 'on' ? "https" : "http" ) . '://' . $_SERVER['HTTP_HOST'] . $_REQUEST['redirect'];
 				}
 
-				wp_redirect( $redirect_loc );
+				wp_safe_redirect( $redirect_loc );
 				exit();
 			}
 		}
