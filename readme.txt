@@ -6,7 +6,7 @@ License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 Requires PHP: 5.6
 Requires at least: 4.5
-Tested up to: 6.2
+Tested up to: 6.5
 Stable tag: 1.1.0
 Tags: WP User Switch, User Switch, User Switching, Switch User, Switching Account
 
@@ -74,12 +74,12 @@ No, you must be logged in first. Then if you have 'manage options' capability th
 
 = 1.1.0
 
+- Update: Security improvement for user switch.
+
+= 1.0.5
+
 - Fix: Security improvement and bug fixing
 
 = 1.0.4
 
 - Update: improve and secure cookie set process.
-
-= 1.1.0
-
-- Update: Security improvement for user switch.
