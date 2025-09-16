@@ -145,6 +145,9 @@ function wpus_user_caps_count( $user_id ) {
 
 function wpus_check_caps_level( $user_caps_count ) {
 	$switched_user = wpus_get_switched_user();
+	if(! $switched_user && ! is_object( $switched_user ) ) {
+		return false;
+	}
 	$switched_user_cap_count = count( (array) $switched_user->allcaps );
 
 	return ( $user_caps_count <= $switched_user_cap_count );
