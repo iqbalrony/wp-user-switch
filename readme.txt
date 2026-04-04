@@ -1,13 +1,13 @@
 === WP User Switch ===
 Plugin Name: WP User Switch
 Contributors: iqbalrony
-Version: 1.1.2
+Version: 1.1.3
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 Requires PHP: 5.6
 Requires at least: 5.0
-Tested up to: 6.8
-Stable tag: 1.1.2
+Tested up to: 6.9
+Stable tag: 1.1.3
 Tags: WP User Switch, User Switch, User Switching, Switch User, Switching Account
 
 **WP User Switch** is a very simple plugin which will help you to switch instantly between the user's account in a WordPress site.
@@ -71,6 +71,10 @@ No, you must be logged in first. Then if you have 'manage options' capability th
 
 
 == Changelog ==
+
+= 1.1.3
+
+- Update: Made Compatible with WordPress 6.9
 
 = 1.1.2
 
